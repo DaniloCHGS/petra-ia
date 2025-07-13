@@ -51,7 +51,7 @@ const Chat: React.FC = () => {
   return (
     <div className="flex flex-col h-screen bg-gray-100">
       <header className="p-4 bg-blue-600 text-white text-xl font-semibold shadow">
-        Chat
+        Petra IA
       </header>
 
       <div className="flex-1 overflow-y-auto p-4">
