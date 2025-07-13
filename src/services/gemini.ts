@@ -1,3 +1,5 @@
+import { modelPrompt } from "./modelPrompt";
+
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
 type GeminiResponse = {
@@ -21,13 +23,21 @@ export const gemini = async (text: string) => {
       body: JSON.stringify({
         contents: [
           {
+            role: "model",
+            parts: [
+              {
+                text: modelPrompt,
+              },
+            ],
+          },
+          {
+            role: "user",
             parts: [{ text }],
           },
         ],
       }),
     }
   );
-
   const data: GeminiResponse = await response.json();
   return data.candidates[0].content.parts[0].text;
 };
