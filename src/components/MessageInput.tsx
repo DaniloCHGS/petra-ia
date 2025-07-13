@@ -2,9 +2,10 @@ import React, { useState } from "react";
 
 type Props = {
   onSend: (text: string) => void;
+  isLoading: boolean;
 };
 
-export const MessageInput: React.FC<Props> = ({ onSend }) => {
+export const MessageInput: React.FC<Props> = ({ onSend, isLoading }) => {
   const [text, setText] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -24,7 +25,8 @@ export const MessageInput: React.FC<Props> = ({ onSend }) => {
       />
       <button
         type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded-full shadow hover:bg-blue-700 transition"
+        disabled={isLoading}
+        className="bg-blue-600 text-white px-4 py-2 rounded-full shadow hover:bg-blue-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:bg-gray-300"
       >
         Enviar
       </button>

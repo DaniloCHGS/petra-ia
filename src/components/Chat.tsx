@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ChatWindow } from "./ChatWindow";
 import { MessageInput } from "./MessageInput";
+import { gemini } from "../services/gemini";
 
 type Message = {
   id: number;
@@ -10,9 +11,11 @@ type Message = {
 
 const Chat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSendMessage = (text: string) => {
+  const handleSendMessage = async (text: string) => {
     if (!text.trim()) return;
+    setIsLoading(true);
     const newMessage: Message = {
       id: Date.now(),
       text,
@@ -20,17 +23,29 @@ const Chat: React.FC = () => {
     };
     setMessages((prev) => [...prev, newMessage]);
 
-    // Simulação de resposta automática (bot)
-    setTimeout(() => {
+    try {
+      const botResponse = await gemini(text);
+
+      const botMessage: Message = {
+        id: Date.now() + 1,
+        text: botResponse,
+        sender: "bot",
+      };
+
+      setMessages((prev) => [...prev, botMessage]);
+    } catch (error) {
       setMessages((prev) => [
         ...prev,
         {
           id: Date.now() + 1,
-          text: "Resposta simulada da IA.",
+          text: "Erro ao consultar a IA. Tente novamente mais tarde.",
           sender: "bot",
         },
       ]);
-    }, 500);
+      console.error("Erro ao chamar Gemini:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -40,11 +55,11 @@ const Chat: React.FC = () => {
       </header>
 
       <div className="flex-1 overflow-y-auto p-4">
-        <ChatWindow messages={messages} />
+        <ChatWindow isLoading={isLoading} messages={messages} />
       </div>
 
       <div className="p-4 border-t bg-white">
-        <MessageInput onSend={handleSendMessage} />
+        <MessageInput isLoading={isLoading} onSend={handleSendMessage} />
       </div>
     </div>
   );
