@@ -3,9 +3,10 @@ import React, { useState } from "react";
 type Props = {
   onSend: (text: string) => void;
   isLoading: boolean;
+  darkMode: boolean;
 };
 
-export const MessageInput: React.FC<Props> = ({ onSend, isLoading }) => {
+export const MessageInput: React.FC<Props> = ({ onSend, isLoading, darkMode }) => {
   const [text, setText] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -21,7 +22,11 @@ export const MessageInput: React.FC<Props> = ({ onSend, isLoading }) => {
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Digite sua mensagem..."
-        className="flex-1 border rounded-full px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
+        className={`flex-1 border rounded-full px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300 ${
+          darkMode 
+            ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400" 
+            : "bg-white border-gray-300 text-gray-900"
+        }`}
       />
       <button
         type="submit"
