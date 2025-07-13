@@ -2,6 +2,7 @@ import { Loader, Copy, Check } from "lucide-react";
 import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import toast from "react-hot-toast";
+import { ChatText } from "./ChatText";
 
 type Message = {
   id: number;
@@ -18,7 +19,8 @@ export const ChatWindow: React.FC<Props> = ({ messages, isLoading }) => {
   const [copiedId, setCopiedId] = useState<number | null>(null);
 
   const handleCopy = (text: string, id: number) => {
-    navigator.clipboard.writeText(text)
+    navigator.clipboard
+      .writeText(text)
       .then(() => {
         toast.success("Texto copiado para a área de transferência!");
         setCopiedId(id);
@@ -31,15 +33,13 @@ export const ChatWindow: React.FC<Props> = ({ messages, isLoading }) => {
 
   return (
     <div className="space-y-2">
+      {messages.length === 0 && (
+        <ChatText>
+          Você ainda não enviou nenhuma mensagem. Comece a conversar! 😃
+        </ChatText>
+      )}
       {messages.map((msg) => (
-        <div
-          key={msg.id}
-          className={`px-4 py-2 rounded-lg shadow ${
-            msg.sender === "user"
-              ? "bg-blue-500 text-white ml-auto"
-              : "bg-gray-200 text-gray-900"
-          } relative group`}
-        >
+        <ChatText key={msg.id} type={msg.sender}>
           {msg.sender === "bot" ? (
             <>
               <ReactMarkdown>{msg.text}</ReactMarkdown>
@@ -48,11 +48,7 @@ export const ChatWindow: React.FC<Props> = ({ messages, isLoading }) => {
                 className="absolute top-2 right-2 p-1 rounded-md bg-gray-300 text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-400"
                 title="Copiar texto"
               >
-                {copiedId === msg.id ? (
-                  <Check size={16} />
-                ) : (
-                  <Copy size={16} />
-                )}
+                {copiedId === msg.id ? <Check size={16} /> : <Copy size={16} />}
               </button>
             </>
           ) : (
@@ -63,15 +59,11 @@ export const ChatWindow: React.FC<Props> = ({ messages, isLoading }) => {
                 className="absolute top-2 right-2 p-1 rounded-md bg-blue-600 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-blue-700"
                 title="Copiar texto"
               >
-                {copiedId === msg.id ? (
-                  <Check size={16} />
-                ) : (
-                  <Copy size={16} />
-                )}
+                {copiedId === msg.id ? <Check size={16} /> : <Copy size={16} />}
               </button>
             </>
           )}
-        </div>
+        </ChatText>
       ))}
       {isLoading && (
         <div className="px-4 py-2 rounded-lg shadow bg-gray-200 text-gray-900">
