@@ -1,4 +1,4 @@
-// src/db.ts
+// db.ts
 import { openDB } from "idb";
 import type { DBSchema } from "idb";
 
@@ -15,25 +15,32 @@ interface ChatDB extends DBSchema {
   };
 }
 
-export const db = await openDB<ChatDB>("chat-db", 1, {
-  upgrade(database) {
-    database.createObjectStore("messages", {
-      keyPath: "id",
-    });
-  },
-});
+let dbPromise: ReturnType<typeof openDB<ChatDB>>;
 
-// Função para adicionar uma mensagem
+export function getDB() {
+  if (!dbPromise) {
+    dbPromise = openDB<ChatDB>("chat-db", 1, {
+      upgrade(database) {
+        database.createObjectStore("messages", {
+          keyPath: "id",
+        });
+      },
+    });
+  }
+  return dbPromise;
+}
+
 export async function saveMessage(message: Message) {
+  const db = await getDB();
   await db.add("messages", message);
 }
 
-// Função para buscar todas as mensagens
 export async function getAllMessages(): Promise<Message[]> {
+  const db = await getDB();
   return await db.getAll("messages");
 }
 
-// Função para limpar o histórico
 export async function clearMessages() {
+  const db = await getDB();
   await db.clear("messages");
 }
