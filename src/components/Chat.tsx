@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ChatWindow } from "./ChatWindow";
 import { MessageInput } from "./MessageInput";
 import { gemini } from "../services/gemini";
+import { Toaster } from "react-hot-toast";
 
 type Message = {
   id: number;
@@ -50,6 +51,7 @@ const Chat: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
+      <Toaster position="top-right" />
       <header className="p-4 bg-blue-600 text-white text-xl font-semibold shadow">
         Petra IA
       </header>
