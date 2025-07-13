@@ -1,30 +1,79 @@
-# React + TypeScript + Vite
+# Petra IA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Petra IA é um assistente virtual especializado em Bíblia e Teologia, desenvolvido para ajudar pessoas a compreenderem melhor as Escrituras Sagradas.
 
-Currently, two official plugins are available:
+<!-- ![Petra IA](https://via.placeholder.com/800x400?text=Petra+IA) -->
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📋 Sobre o Projeto
 
-## Expanding the ESLint configuration
+Petra IA é uma aplicação web que utiliza a API Gemini da Google para fornecer respostas precisas e contextualizadas sobre temas bíblicos e teológicos. O assistente é capaz de:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Responder perguntas sobre o conteúdo da Bíblia (Antigo e Novo Testamento)
+- Explicar contextos históricos, geográficos e culturais dos textos bíblicos
+- Abordar temas teológicos com profundidade e clareza
+- Adaptar suas respostas para diferentes níveis de conhecimento
 
-- Configure the top-level `parserOptions` property like this:
+## 🚀 Tecnologias Utilizadas
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+- **React**: Biblioteca JavaScript para construção de interfaces
+- **TypeScript**: Superset tipado de JavaScript
+- **Vite**: Ferramenta de build rápida para desenvolvimento moderno
+- **Tailwind CSS**: Framework CSS utilitário para estilização
+- **Google Gemini API**: Modelo de linguagem avançado para geração de respostas
+- **React Markdown**: Para renderização de conteúdo formatado
+
+## 🔧 Configuração do Ambiente
+
+### Pré-requisitos
+
+- Node.js (versão 14 ou superior)
+- NPM ou Yarn
+
+### Instalação
+
+1. Clone o repositório:
+
+   ```bash
+   git clone git@github.com:DaniloCHGS/petra-ia.git
+   cd petra
+   ```
+
+2. Instale as dependências:
+   ```bash
+   npm install
+   # ou
+   yarn install
+   ```
+3. Crie um arquivo `.env` na raiz do projeto e adicione sua chave de API da Google Gemini:
+   ```
+   VITE_GEMINI_API_KEY=sua-chave-da-api
+   ```
+4. Inicie o servidor de desenvolvimento:
+   ```bash
+   npm run dev
+   # ou
+   yarn dev
+   ```
+5. Acesse a aplicação em `http://localhost:5173/`.
+
+## 🏗️ Estrutura do Projeto
+
+```bash
+petra/
+├── src/
+│ ├── components/ # Componentes React
+│ ├── services/ # Serviços e integrações
+│ ├── App.tsx # Componente principal
+│ ├── main.tsx # Ponto de entrada
+│ └── global.css # Estilos globais
+├── public/ # Arquivos estáticos
+└── ... # Arquivos de configuração
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## 📦 Build para Produção
+
+```bash
+  npm run build
+  # ou
+  yarn build
+```
