@@ -1,3 +1,5 @@
+import Chat from "./components/Chat";
+
 export function App() {
-  return <h1 className="">Petra</h1>;
+  return <Chat />;
 }
