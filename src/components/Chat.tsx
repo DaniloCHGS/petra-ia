@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChatWindow } from "./ChatWindow";
 import { MessageInput } from "./MessageInput";
 import { gemini } from "../services/gemini";
 import { Toaster } from "react-hot-toast";
+import { getAllMessages, saveMessage } from "../services/db";
 
 type Message = {
   id: number;
@@ -10,22 +11,36 @@ type Message = {
   sender: "user" | "bot";
 };
 
-const Chat: React.FC = () => {
+export const Chat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Carrega histórico ao montar
+  useEffect(() => {
+    (async () => {
+      const history = await getAllMessages();
+      setMessages(history);
+    })();
+  }, []);
+
   const handleSendMessage = async (text: string) => {
     if (!text.trim()) return;
+
     setIsLoading(true);
+
     const newMessage: Message = {
       id: Date.now(),
       text,
       sender: "user",
     };
-    setMessages((prev) => [...prev, newMessage]);
+
+    const updatedMessages = [...messages, newMessage];
+    setMessages(updatedMessages);
+
+    await saveMessage(newMessage);
 
     try {
-      const botResponse = await gemini(text);
+      const botResponse = await gemini(text, updatedMessages);
 
       const botMessage: Message = {
         id: Date.now() + 1,
@@ -34,6 +49,7 @@ const Chat: React.FC = () => {
       };
 
       setMessages((prev) => [...prev, botMessage]);
+      await saveMessage(botMessage);
     } catch (error) {
       setMessages((prev) => [
         ...prev,
@@ -66,5 +82,3 @@ const Chat: React.FC = () => {
     </div>
   );
 };
-
-export default Chat;

@@ -12,6 +12,7 @@ Petra IA é uma aplicação web que utiliza a API Gemini da Google para fornecer
 - Explicar contextos históricos, geográficos e culturais dos textos bíblicos
 - Abordar temas teológicos com profundidade e clareza
 - Adaptar suas respostas para diferentes níveis de conhecimento
+- Manter histórico de conversas usando armazenamento local
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -21,6 +22,9 @@ Petra IA é uma aplicação web que utiliza a API Gemini da Google para fornecer
 - **Tailwind CSS**: Framework CSS utilitário para estilização
 - **Google Gemini API**: Modelo de linguagem avançado para geração de respostas
 - **React Markdown**: Para renderização de conteúdo formatado
+- **IndexedDB (idb)**: Para armazenamento local do histórico de conversas
+- **React Hot Toast**: Para notificações na interface
+- **Lucide React**: Biblioteca de ícones
 
 ## 🔧 Configuração do Ambiente
 
@@ -63,12 +67,23 @@ petra/
 ├── src/
 │ ├── components/ # Componentes React
 │ ├── services/ # Serviços e integrações
+│ │ ├── db.ts # Gerenciamento de banco de dados local
+│ │ ├── gemini.ts # Integração com a API Gemini
+│ │ ├── modelPrompt.ts # Prompt do modelo
 │ ├── App.tsx # Componente principal
 │ ├── main.tsx # Ponto de entrada
 │ └── global.css # Estilos globais
 ├── public/ # Arquivos estáticos
 └── ... # Arquivos de configuração
 ```
+
+## 💡 Funcionalidades
+
+- Interface de Chat : Interface amigável para interação com o assistente
+- Renderização Markdown : Suporte a formatação nas respostas do assistente
+- Histórico de Conversas : Armazenamento local das conversas usando IndexedDB
+- Contexto de Conversa : O assistente mantém o contexto da conversa atual
+- Notificações : Feedback visual para ações do usuário
 
 ## 📦 Build para Produção
 
@@ -77,3 +92,5 @@ petra/
   # ou
   yarn build
 ```
+
+Os arquivos otimizados serão gerados na pasta dist/ .
